@@ -9,7 +9,7 @@ import javax.sql.DataSource
 
 class PostgresTimeEntriesTestRepository(private val dataSource: DataSource) {
     suspend fun getAll(): List<TimeEntry> = dataSource.sql {
-        select("SELECT user_name, project_name, start, end FROM time_entries") {
+        select("""SELECT user_name, project_name, start, "end" FROM time_entries""") {
             TimeEntry(
                 UserName(it.string(1)!!),
                 ProjectName(it.string(2)!!),
