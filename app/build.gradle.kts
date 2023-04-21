@@ -4,6 +4,8 @@ import Dependencies.hikariCp
 import Dependencies.kotestRunnerJunit
 import Dependencies.kotlinXCoroutinesCore
 import Dependencies.kotlinXSerializationJson
+import Dependencies.ktorServerCore
+import Dependencies.ktorServerNetty
 import Dependencies.mockito
 import Dependencies.postgresql
 
@@ -39,6 +41,8 @@ dependencies {
     implementation(arrowFxCoroutines)
     implementation(kotlinXSerializationJson)
     implementation(kotlinXCoroutinesCore)
+    implementation(ktorServerCore)
+    implementation(ktorServerNetty)
     implementation(postgresql)
     implementation(hikariCp)
     testImplementation(kotestRunnerJunit)
