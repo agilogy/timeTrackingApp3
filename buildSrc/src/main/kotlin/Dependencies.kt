@@ -24,4 +24,6 @@ object Dependencies {
     val hikariCpVersion = "5.0.1"
     val hikariCp = "$zaxxer:HikariCP:$hikariCpVersion"
 
+    val mockito = "org.mockito.kotlin:mockito-kotlin:4.0.0"
+
 }

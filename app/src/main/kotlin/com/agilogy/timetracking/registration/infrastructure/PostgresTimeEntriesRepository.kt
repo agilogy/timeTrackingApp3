@@ -9,6 +9,7 @@ import com.agilogy.timetracking.registration.domain.TimeEntriesRepository
 import com.agilogy.timetracking.registration.domain.TimeEntry
 import com.agilogy.timetracking.user.domain.UserName
 import java.time.LocalDate
+import java.time.LocalTime
 import java.time.ZoneId
 import javax.sql.DataSource
 
@@ -36,7 +37,7 @@ class PostgresTimeEntriesRepository(private val dataSource: DataSource) : TimeEn
                 """SELECT user_name, project_name, start, "end" FROM time_entries WHERE user_name = ? AND start >= ? AND start <= ?""",
                 userName.value.param,
                 start.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().param,
-                end.atStartOfDay().atZone(ZoneId.systemDefault()).toInstant().param
+                end.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant().param
             ) {
                 TimeEntry(
                     UserName(it.string(1)!!),

@@ -4,6 +4,7 @@ import Dependencies.hikariCp
 import Dependencies.kotestRunnerJunit
 import Dependencies.kotlinXCoroutinesCore
 import Dependencies.kotlinXSerializationJson
+import Dependencies.mockito
 import Dependencies.postgresql
 
 plugins {
@@ -41,6 +42,7 @@ dependencies {
     implementation(postgresql)
     implementation(hikariCp)
     testImplementation(kotestRunnerJunit)
+    testImplementation(mockito)
 }
 
 tasks.test {
