@@ -8,8 +8,6 @@ import java.time.*
 import java.time.temporal.ChronoUnit
 
 class TimeEntriesRegisterTest : FunSpec() {
-    private val timeEntriesRepository = InMemoryTimeEntriesRepository()
-    private val timeEntriesRegister = TimeEntriesRegister(timeEntriesRepository)
 
     init {
         fun at(day: Int, hour: Int): Instant =
@@ -18,12 +16,15 @@ class TimeEntriesRegisterTest : FunSpec() {
         val agilogySchool = ProjectName("Agilogy School")
         val user1 = UserName("John Doe")
 
+        val entries = listOf(
+            TimeEntry(user1, agilogySchool, at(1, 9), at(1, 10)),
+            TimeEntry(user1, agilogySchool, at(1, 10), at(1, 11)),
+            TimeEntry(user1, agilogySchool, at(1, 10), at(1, 11))
+        )
+
         test("it should return the daily user hours from a user within a time range") {
-            val entries = listOf(
-                TimeEntry(user1, agilogySchool, at(1, 9), at(1, 10)),
-                TimeEntry(user1, agilogySchool, at(1, 10), at(1, 11)),
-                TimeEntry(user1, agilogySchool, at(1, 10), at(1, 11))
-            )
+            val timeEntriesRepository = InMemoryTimeEntriesRepository()
+            val timeEntriesRegister = TimeEntriesRegister(timeEntriesRepository)
 
             timeEntriesRepository.save(entries)
 
@@ -39,6 +40,17 @@ class TimeEntriesRegisterTest : FunSpec() {
 
             assertEquals(actual, expected)
 
+        }
+
+        test("it should register the given time entries") {
+            val timeEntriesRepository = InMemoryTimeEntriesRepository()
+            val timeEntriesRegister = TimeEntriesRegister(timeEntriesRepository)
+
+            timeEntriesRegister.registerEntries(entries)
+
+            val actual = timeEntriesRepository.getAllTimeEntries()
+
+            assertEquals(actual, entries)
         }
     }
 }

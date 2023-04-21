@@ -18,4 +18,6 @@ class InMemoryTimeEntriesRepository : TimeEntriesRepository {
                 .toInstant() && it.start <= end.atTime(LocalTime.MAX).atZone(ZoneId.systemDefault()).toInstant()
         }
 
+    fun getAllTimeEntries(): List<TimeEntry> = entries
+
 }
