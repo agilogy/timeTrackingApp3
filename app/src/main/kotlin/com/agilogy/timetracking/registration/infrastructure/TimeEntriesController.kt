@@ -6,12 +6,17 @@ import arrow.fx.coroutines.use
 import com.agilogy.db.hikari.HikariCp
 import com.agilogy.timetracking.registration.domain.TimeEntriesRegister
 import com.agilogy.timetracking.user.domain.UserName
-import io.ktor.http.*
-import io.ktor.server.application.*
-import io.ktor.server.engine.*
-import io.ktor.server.netty.*
-import io.ktor.server.response.*
-import io.ktor.server.routing.*
+import io.ktor.http.ContentType
+import io.ktor.http.HttpStatusCode
+import io.ktor.http.Parameters
+import io.ktor.server.application.Application
+import io.ktor.server.application.call
+import io.ktor.server.engine.embeddedServer
+import io.ktor.server.netty.Netty
+import io.ktor.server.response.respondText
+import io.ktor.server.routing.Routing
+import io.ktor.server.routing.get
+import io.ktor.server.routing.routing
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
@@ -22,12 +27,7 @@ class TimeEntriesController(private val timeEntriesRegister: TimeEntriesRegister
 
     context(Application)
     fun routes() {
-        routing {
-            timeEntriesRoutes()
-            post("/haha") {
-                call.respondText("[]", ContentType.Application.Json)
-            }
-        }
+        routing { timeEntriesRoutes() }
     }
 
     context(Routing)
@@ -72,12 +72,9 @@ class TimeEntriesController(private val timeEntriesRegister: TimeEntriesRegister
         this[param]?.let {
             Either.catch { parser(it) }.mapLeft { ValidationError(param, "invalid.format") }
         } ?: Either.Left(ValidationError(param, "required"))
-
-
 }
 
 data class ValidationError(val field: String, val description: String)
-
 
 suspend fun main() {
 
@@ -91,5 +88,4 @@ suspend fun main() {
             timeEntriesController.routes()
         }.start(wait = true)
     }
-
 }
