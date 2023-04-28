@@ -4,9 +4,7 @@ import arrow.core.Either
 import arrow.core.getOrElse
 import arrow.fx.coroutines.use
 import com.agilogy.db.hikari.HikariCp
-import com.agilogy.timetracking.project.domain.ProjectName
 import com.agilogy.timetracking.registration.domain.TimeEntriesRegister
-import com.agilogy.timetracking.registration.domain.TimeEntry
 import com.agilogy.timetracking.user.domain.UserName
 import io.ktor.http.*
 import io.ktor.server.application.*
@@ -14,18 +12,23 @@ import io.ktor.server.engine.*
 import io.ktor.server.netty.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
-import jdk.jfr.Description
-import kotlinx.serialization.SerializationStrategy
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonArray
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.JsonPrimitive
 import java.time.Duration
-import java.time.Instant
 import java.time.LocalDate
-import java.time.temporal.ChronoUnit
 
 class TimeEntriesController(private val timeEntriesRegister: TimeEntriesRegister) {
+
+    context(Application)
+    fun routes() {
+        routing {
+            timeEntriesRoutes()
+            post("/haha") {
+                call.respondText("[]", ContentType.Application.Json)
+            }
+        }
+    }
 
     context(Routing)
     fun timeEntriesRoutes() {
@@ -82,13 +85,10 @@ suspend fun main() {
         val repo = PostgresTimeEntriesRepository(dataSource)
         val timeEntriesRegister = TimeEntriesRegister(repo)
 
+        val timeEntriesController = TimeEntriesController(timeEntriesRegister)
+
         embeddedServer(Netty, port = 8080, host = "0.0.0.0") {
-            routing {
-                TimeEntriesController(timeEntriesRegister).timeEntriesRoutes()
-                post("/haha") {
-                    call.respondText("[]", ContentType.Application.Json)
-                }
-            }
+            timeEntriesController.routes()
         }.start(wait = true)
     }
 

@@ -16,8 +16,14 @@ object Dependencies {
     val kotestVersion = "5.5.5"
     val kotestRunnerJunit = "$kotest:kotest-runner-junit5:$kotestVersion"
 
-    val ktorServerCore = "io.ktor:ktor-server-core-jvm:2.2.2"
-    val ktorServerNetty = "io.ktor:ktor-server-netty-jvm:2.2.2"
+    val ktorVersion = "2.2.2"
+    val ktorServerCore = "io.ktor:ktor-server-core-jvm:$ktorVersion"
+    val ktorServerNetty = "io.ktor:ktor-server-netty-jvm:$ktorVersion"
+    val ktorTest = "io.ktor:ktor-server-test-host:$ktorVersion"
+
+    val ktorClient = "io.ktor:ktor-client-core:$ktorVersion"
+    val ktorClientCio = "io.ktor:ktor-client-cio:$ktorVersion"
+    val ktorContentNegotiation = "io.ktor:ktor-client-content-negotiation:$ktorVersion"
 
     val orgPostgresql = "org.postgresql"
     val postgresqlVersion ="42.5.3"

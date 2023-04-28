@@ -4,8 +4,12 @@ import Dependencies.hikariCp
 import Dependencies.kotestRunnerJunit
 import Dependencies.kotlinXCoroutinesCore
 import Dependencies.kotlinXSerializationJson
+import Dependencies.ktorClient
+import Dependencies.ktorClientCio
+import Dependencies.ktorContentNegotiation
 import Dependencies.ktorServerCore
 import Dependencies.ktorServerNetty
+import Dependencies.ktorTest
 import Dependencies.mockito
 import Dependencies.postgresql
 
@@ -47,6 +51,10 @@ dependencies {
     implementation(hikariCp)
     testImplementation(kotestRunnerJunit)
     testImplementation(mockito)
+    testImplementation(ktorTest)
+    testImplementation(ktorClient)
+    testImplementation(ktorClientCio)
+    testImplementation(ktorContentNegotiation)
 }
 
 tasks.test {
